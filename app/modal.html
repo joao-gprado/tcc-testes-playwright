@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perfil</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Loja TCC</h1>
+  </header>
+
+  <main class="conteudo">
+    <section class="cartao perfil">
+      <h2>João Pedro</h2>
+      <p class="apelido">Apelido: <span id="perfil-apelido">joao.pedro</span></p>
+
+      <button id="open-modal-btn" class="botao primario">Editar Perfil</button>
+    </section>
+  </main>
+
+  <div id="modal-perfil" class="overlay oculto">
+    <div class="modal">
+      <h2>Editar Informações</h2>
+
+      <div class="campo">
+        <label for="novo-apelido">Novo Apelido</label>
+        <input type="text" id="novo-apelido" placeholder="Como quer ser chamado?">
+      </div>
+
+      <div class="modal-acoes">
+        <button id="modal-cancel" class="botao secundario">Cancelar</button>
+        <button id="modal-save" class="botao primario">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/modal.js"></script>
+</body>
+</html>

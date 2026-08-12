@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Loja TCC</h1>
+  </header>
+
+  <main class="conteudo">
+    <section class="cartao">
+      <h2>Usuários cadastrados</h2>
+
+      <table id="tabela-usuarios">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-id="101">
+            <td>101</td>
+            <td>Ana Ribeiro</td>
+            <td>ana.ribeiro@email.com</td>
+            <td class="acoes">
+              <button class="btn-edit">Editar</button>
+              <button class="btn-delete">Excluir</button>
+            </td>
+          </tr>
+          <tr data-id="102">
+            <td>102</td>
+            <td>João Silva</td>
+            <td>joao.silva@email.com</td>
+            <td class="acoes">
+              <button class="btn-edit">Editar</button>
+              <button class="btn-delete">Excluir</button>
+            </td>
+          </tr>
+          <tr data-id="103">
+            <td>103</td>
+            <td>Carlos Mendes</td>
+            <td>carlos.mendes@email.com</td>
+            <td class="acoes">
+              <button class="btn-edit">Editar</button>
+              <button class="btn-delete">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <div id="toast" class="toast oculto"></div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

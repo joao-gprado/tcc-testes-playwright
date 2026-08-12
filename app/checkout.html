@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Loja TCC</h1>
+  </header>
+
+  <main class="conteudo">
+    <section class="cartao">
+      <h2>Finalizar pedido</h2>
+
+      <form id="form-checkout" novalidate>
+        <div class="campo">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Ex: Maria de Souza">
+        </div>
+
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="voce@email.com">
+        </div>
+
+        <fieldset class="campo">
+          <legend>Forma de pagamento</legend>
+          <label class="opcao" for="pag-cartao">
+            <input type="radio" name="pagamento" id="pag-cartao" value="cartao"> Cartão de Crédito
+          </label>
+          <label class="opcao" for="pag-pix">
+            <input type="radio" name="pagamento" id="pag-pix" value="pix"> PIX
+          </label>
+        </fieldset>
+
+        <div class="campo">
+          <label class="opcao" for="termos">
+            <input type="checkbox" id="termos" name="termos"> Li e aceito os Termos e Condições
+          </label>
+        </div>
+
+        <button type="submit" id="btn-submit" class="botao primario">Finalizar Compra</button>
+      </form>
+
+      <p id="msg-erro" class="alerta erro oculto"></p>
+      <p id="msg-sucesso" class="alerta sucesso oculto">Pedido realizado com sucesso!</p>
+    </section>
+  </main>
+
+  <script src="js/checkout.js"></script>
+</body>
+</html>
