@@ -1,0 +1,25 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.15.1, pytest-8.3.4, pluggy-1.7.0 -- C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright
+configfile: pytest.ini
+plugins: anyio-4.15.1, base-url-2.1.0, playwright-0.6.2
+collecting ... collected 3 items
+
+tests_exp3/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium] PASSED [ 33%]
+tests_exp3/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium] PASSED [ 66%]
+tests_exp3/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium] PASSED [100%]
+
+============================== warnings summary ===============================
+.venv\Lib\site-packages\google\genai\types.py:42
+  C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\.venv\Lib\site-packages\google\genai\types.py:42: DeprecationWarning: '_UnionGenericAlias' is deprecated and slated for removal in Python 3.17
+    VersionedUnionType = Union[builtin_types.UnionType, _UnionGenericAlias]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=================================== PASSES ====================================
+- generated xml file: C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\resultados\experimento3\junit_v1_r1.xml -
+=========================== short test summary info ===========================
+PASSED tests_exp3/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium]
+PASSED tests_exp3/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium]
+PASSED tests_exp3/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium]
+================== 3 passed, 1 warning in 225.67s (0:03:45) ===================

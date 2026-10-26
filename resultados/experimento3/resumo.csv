@@ -1,0 +1,5 @@
+﻿conjunto;execucoes_de_teste;aprovados;reprovados;chamadas_llm;curados;abortados_confianca;abortados_seletor_invalido;confianca_media;latencia_media_s;latencia_min_s;latencia_max_s
+controle;3;3;0;0;0;0;0;;;;
+v1;3;3;0;3;3;0;0;97.7;62.34;46.92;85.48
+v2;3;0;3;0;0;0;0;;;;
+v3;3;0;3;3;0;3;0;43.3;81.0;61.58;111.42

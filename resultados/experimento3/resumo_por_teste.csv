@@ -1,0 +1,13 @@
+﻿conjunto;teste;rodadas;aprovados;decisoes_llm;confiancas
+controle;test_excluir_usuario_remove_apenas_a_linha_correta;1;1;;
+controle;test_finalizar_compra_exibe_mensagem_de_sucesso;1;1;;
+controle;test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil;1;1;;
+v1;test_excluir_usuario_remove_apenas_a_linha_correta;1;1;curado;98
+v1;test_finalizar_compra_exibe_mensagem_de_sucesso;1;1;curado;95
+v1;test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil;1;1;curado;100
+v2;test_excluir_usuario_remove_apenas_a_linha_correta;1;0;;
+v2;test_finalizar_compra_exibe_mensagem_de_sucesso;1;0;;
+v2;test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil;1;0;;
+v3;test_excluir_usuario_remove_apenas_a_linha_correta;1;0;abortado_confianca;40
+v3;test_finalizar_compra_exibe_mensagem_de_sucesso;1;0;abortado_confianca;45
+v3;test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil;1;0;abortado_confianca;45

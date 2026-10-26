@@ -1,0 +1,19 @@
+﻿Data/hora: 2026-10-25 19:42:23
+Computador: JOHN
+Microsoft Windows 11 Pro
+Python 3.15.1
+
+Name: pytest
+Version: 8.3.4
+Name: pytest-playwright
+Version: 0.6.2
+Name: playwright
+Version: 1.62.0
+Name: google-genai
+Version: 2.29.0
+
+
+Chromium 151.0.7922.34
+Modelo LLM: gemini-3.8-flash
+Limiar de confiança: 80%
+Repetições: 1

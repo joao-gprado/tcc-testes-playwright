@@ -1,0 +1,19 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.15.1, pytest-8.3.4, pluggy-1.7.0 -- C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright
+configfile: pytest.ini
+testpaths: tests
+plugins: base-url-2.1.0, playwright-0.6.2
+collecting ... collected 3 items
+
+tests/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium] PASSED [ 33%]
+tests/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium] PASSED [ 66%]
+tests/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium] PASSED [100%]
+
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium]
+PASSED tests/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium]
+PASSED tests/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium]
+============================== 3 passed in 3.57s ==============================

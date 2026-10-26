@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="266.029" timestamp="2026-10-25T19:46:33.637283-03:00" hostname="JOHN"><testcase classname="tests_exp3.test_checkout" name="test_finalizar_compra_exibe_mensagem_de_sucesso[chromium]" time="70.753"><failure message="self_healing.CuraAbortada: Self-healing abortado (abortado_confianca): '#btn-submit' -&gt; '#form-checkout &gt; button:last-of-type' com confiança 45% (limiar 80%). Existem dois botões idênticos de submit com id duplicado (#btn-submit) no formulário, um no início e outro no final. Embora o botão ao final dos campos seja o candidato mais provável para submissão após o preenchimento, a presença de dois elementos idênticos e válidos cria ambiguidade, reduzindo a confiança.">abrir = &lt;function abrir.&lt;locals&gt;.navegar at 0x000002184C3E6400&gt;
+curador = &lt;self_healing.MiddlewareSelfHealing object at 0x000002184C32B380&gt;
+capturar = &lt;function capturar.&lt;locals&gt;.salvar at 0x000002184C5C3530&gt;
+
+    def test_finalizar_compra_exibe_mensagem_de_sucesso(abrir, curador, capturar):
+        page = abrir("checkout.html")
+    
+        curador.preencher("#nome", "Maria de Souza", "campo Nome completo do formulário de checkout")
+        curador.preencher("#email", "maria.souza@email.com", "campo E-mail do formulário de checkout")
+        curador.marcar("#pag-pix", "opção de pagamento PIX")
+        curador.marcar("#termos", "caixa de aceite dos Termos e Condições")
+&gt;       curador.clicar("#btn-submit", "botão Finalizar Compra que envia o pedido")
+
+tests_exp3\test_checkout.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self_healing.py:52: in clicar
+    self._resolver("clicar", seletor, intencao).click()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;self_healing.MiddlewareSelfHealing object at 0x000002184C32B380&gt;
+acao = 'clicar', seletor = '#btn-submit'
+intencao = 'botão Finalizar Compra que envia o pedido'
+
+    def _resolver(self, acao, seletor, intencao):
+        # Caminho normal: o seletor original encontra exatamente um elemento
+        problema = self._problema(seletor, self.espera_ms)
+        if problema is None:
+            return self.page.locator(seletor)
+    
+        # Falhou: envia DOM e ação para a LLM
+        resposta, latencia, tentativas = self._consultar_llm(acao, seletor, intencao, problema)
+        novo = resposta["seletor"].strip()
+        confianca = resposta["confianca"]
+    
+        if confianca &lt; self.limiar:
+            decisao = "abortado_confianca"
+        elif not novo or novo == seletor or self._problema(novo, 0) is not None:
+            decisao = "abortado_seletor_invalido"
+        else:
+            decisao = "curado"
+    
+        self._registrar({
+            "acao": acao,
+            "intencao": intencao,
+            "seletor_original": seletor,
+            "problema": problema,
+            "seletor_sugerido": novo,
+            "confianca": confianca,
+            "justificativa": resposta["justificativa"],
+            "decisao": decisao,
+            "latencia_llm_s": round(latencia, 3),
+            "tentativas_api": tentativas,
+        })
+    
+        if decisao != "curado":
+&gt;           raise CuraAbortada(
+                f"Self-healing abortado ({decisao}): '{seletor}' -&gt; '{novo}' "
+                f"com confiança {confianca}% (limiar {self.limiar}%). {resposta['justificativa']}"
+            )
+E           self_healing.CuraAbortada: Self-healing abortado (abortado_confianca): '#btn-submit' -&gt; '#form-checkout &gt; button:last-of-type' com confiança 45% (limiar 80%). Existem dois botões idênticos de submit com id duplicado (#btn-submit) no formulário, um no início e outro no final. Embora o botão ao final dos campos seja o candidato mais provável para submissão após o preenchimento, a presença de dois elementos idênticos e válidos cria ambiguidade, reduzindo a confiança.
+
+self_healing.py:92: CuraAbortada</failure></testcase><testcase classname="tests_exp3.test_dashboard" name="test_excluir_usuario_remove_apenas_a_linha_correta[chromium]" time="83.477"><failure message="self_healing.CuraAbortada: Self-healing abortado (abortado_confianca): '#tabela-usuarios tbody tr[data-id=&quot;102&quot;] .btn-delete' -&gt; '#tabela-usuarios tbody tr[data-id=&quot;102&quot;] button.btn-delete:nth-of-type(2)' com confiança 40% (limiar 80%). A linha do usuário 102 possui dois botões de exclusão idênticos duplicados dentro da coluna de ações. O seletor especifica a primeira ocorrência do botão Excluir usando :nth-of-type(2), mas a confiança é baixa devido à ambiguidade gerada pela duplicação de elementos indistinguíveis.">abrir = &lt;function abrir.&lt;locals&gt;.navegar at 0x000002184C5C2FB0&gt;
+curador = &lt;self_healing.MiddlewareSelfHealing object at 0x000002184CC6CCD0&gt;
+capturar = &lt;function capturar.&lt;locals&gt;.salvar at 0x000002184CC4D7A0&gt;
+
+    def test_excluir_usuario_remove_apenas_a_linha_correta(abrir, curador, capturar):
+        page = abrir("dashboard.html")
+    
+        linhas = page.locator("#tabela-usuarios tbody tr")
+        expect(linhas).to_have_count(3)
+    
+        linha_joao = page.locator('#tabela-usuarios tbody tr[data-id="102"]')
+&gt;       curador.clicar(
+            '#tabela-usuarios tbody tr[data-id="102"] .btn-delete',
+            "botão Excluir da linha do usuário 102 (João Silva) na tabela de usuários",
+        )
+
+tests_exp3\test_dashboard.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self_healing.py:52: in clicar
+    self._resolver("clicar", seletor, intencao).click()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;self_healing.MiddlewareSelfHealing object at 0x000002184CC6CCD0&gt;
+acao = 'clicar'
+seletor = '#tabela-usuarios tbody tr[data-id="102"] .btn-delete'
+intencao = 'botão Excluir da linha do usuário 102 (João Silva) na tabela de usuários'
+
+    def _resolver(self, acao, seletor, intencao):
+        # Caminho normal: o seletor original encontra exatamente um elemento
+        problema = self._problema(seletor, self.espera_ms)
+        if problema is None:
+            return self.page.locator(seletor)
+    
+        # Falhou: envia DOM e ação para a LLM
+        resposta, latencia, tentativas = self._consultar_llm(acao, seletor, intencao, problema)
+        novo = resposta["seletor"].strip()
+        confianca = resposta["confianca"]
+    
+        if confianca &lt; self.limiar:
+            decisao = "abortado_confianca"
+        elif not novo or novo == seletor or self._problema(novo, 0) is not None:
+            decisao = "abortado_seletor_invalido"
+        else:
+            decisao = "curado"
+    
+        self._registrar({
+            "acao": acao,
+            "intencao": intencao,
+            "seletor_original": seletor,
+            "problema": problema,
+            "seletor_sugerido": novo,
+            "confianca": confianca,
+            "justificativa": resposta["justificativa"],
+            "decisao": decisao,
+            "latencia_llm_s": round(latencia, 3),
+            "tentativas_api": tentativas,
+        })
+    
+        if decisao != "curado":
+&gt;           raise CuraAbortada(
+                f"Self-healing abortado ({decisao}): '{seletor}' -&gt; '{novo}' "
+                f"com confiança {confianca}% (limiar {self.limiar}%). {resposta['justificativa']}"
+            )
+E           self_healing.CuraAbortada: Self-healing abortado (abortado_confianca): '#tabela-usuarios tbody tr[data-id="102"] .btn-delete' -&gt; '#tabela-usuarios tbody tr[data-id="102"] button.btn-delete:nth-of-type(2)' com confiança 40% (limiar 80%). A linha do usuário 102 possui dois botões de exclusão idênticos duplicados dentro da coluna de ações. O seletor especifica a primeira ocorrência do botão Excluir usando :nth-of-type(2), mas a confiança é baixa devido à ambiguidade gerada pela duplicação de elementos indistinguíveis.
+
+self_healing.py:92: CuraAbortada</failure></testcase><testcase classname="tests_exp3.test_modal" name="test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium]" time="111.601"><failure message="self_healing.CuraAbortada: Self-healing abortado (abortado_confianca): '#open-modal-btn' -&gt; '.cartao.perfil .botao.primario' com confiança 45% (limiar 80%). Existem dois botões idênticos em texto e id ('Editar Perfil' e '#open-modal-btn'), diferindo apenas pela classe ('primario' e 'secundario'). Selecionou-se o botão com estilo primário dentro do cartão de perfil, porém a confiança é baixa devido à ambiguidade entre os dois candidatos plausíveis.">abrir = &lt;function abrir.&lt;locals&gt;.navegar at 0x000002184CC4FD70&gt;
+curador = &lt;self_healing.MiddlewareSelfHealing object at 0x000002184CC8A350&gt;
+capturar = &lt;function capturar.&lt;locals&gt;.salvar at 0x000002184CC4F5E0&gt;
+
+    def test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil(abrir, curador, capturar):
+        page = abrir("modal.html")
+    
+        modal = page.locator("#modal-perfil")
+&gt;       curador.clicar("#open-modal-btn", "botão Editar Perfil que abre a modal de edição do perfil")
+
+tests_exp3\test_modal.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self_healing.py:52: in clicar
+    self._resolver("clicar", seletor, intencao).click()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;self_healing.MiddlewareSelfHealing object at 0x000002184CC8A350&gt;
+acao = 'clicar', seletor = '#open-modal-btn'
+intencao = 'botão Editar Perfil que abre a modal de edição do perfil'
+
+    def _resolver(self, acao, seletor, intencao):
+        # Caminho normal: o seletor original encontra exatamente um elemento
+        problema = self._problema(seletor, self.espera_ms)
+        if problema is None:
+            return self.page.locator(seletor)
+    
+        # Falhou: envia DOM e ação para a LLM
+        resposta, latencia, tentativas = self._consultar_llm(acao, seletor, intencao, problema)
+        novo = resposta["seletor"].strip()
+        confianca = resposta["confianca"]
+    
+        if confianca &lt; self.limiar:
+            decisao = "abortado_confianca"
+        elif not novo or novo == seletor or self._problema(novo, 0) is not None:
+            decisao = "abortado_seletor_invalido"
+        else:
+            decisao = "curado"
+    
+        self._registrar({
+            "acao": acao,
+            "intencao": intencao,
+            "seletor_original": seletor,
+            "problema": problema,
+            "seletor_sugerido": novo,
+            "confianca": confianca,
+            "justificativa": resposta["justificativa"],
+            "decisao": decisao,
+            "latencia_llm_s": round(latencia, 3),
+            "tentativas_api": tentativas,
+        })
+    
+        if decisao != "curado":
+&gt;           raise CuraAbortada(
+                f"Self-healing abortado ({decisao}): '{seletor}' -&gt; '{novo}' "
+                f"com confiança {confianca}% (limiar {self.limiar}%). {resposta['justificativa']}"
+            )
+E           self_healing.CuraAbortada: Self-healing abortado (abortado_confianca): '#open-modal-btn' -&gt; '.cartao.perfil .botao.primario' com confiança 45% (limiar 80%). Existem dois botões idênticos em texto e id ('Editar Perfil' e '#open-modal-btn'), diferindo apenas pela classe ('primario' e 'secundario'). Selecionou-se o botão com estilo primário dentro do cartão de perfil, porém a confiança é baixa devido à ambiguidade entre os dois candidatos plausíveis.
+
+self_healing.py:92: CuraAbortada</failure></testcase></testsuite></testsuites>

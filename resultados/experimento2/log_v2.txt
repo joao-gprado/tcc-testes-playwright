@@ -1,0 +1,121 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.15.1, pytest-8.3.4, pluggy-1.7.0 -- C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright
+configfile: pytest.ini
+testpaths: tests
+plugins: base-url-2.1.0, playwright-0.6.2
+collecting ... collected 3 items
+
+tests/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium] FAILED [ 33%]
+tests/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium] FAILED [ 66%]
+tests/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium] FAILED [100%]
+
+================================== FAILURES ===================================
+__________ test_finalizar_compra_exibe_mensagem_de_sucesso[chromium] __________
+
+abrir = <function abrir.<locals>.navegar at 0x00000246291F4880>
+capturar = <function capturar.<locals>.salvar at 0x00000246293E5BC0>
+
+    def test_finalizar_compra_exibe_mensagem_de_sucesso(abrir, capturar):
+        page = abrir("checkout.html")
+    
+        page.fill("#nome", "Maria de Souza")
+        page.fill("#email", "maria.souza@email.com")
+        page.check("#pag-pix")
+        page.check("#termos")
+        page.click("#btn-submit")
+    
+        mensagem = page.locator("#msg-sucesso")
+>       expect(mensagem).to_be_visible()
+E       AssertionError: Locator expected to be visible
+E       Actual value: hidden 
+E       Call log:
+E         - Expect "to_be_visible" with timeout 5000ms
+E         - waiting for locator("#msg-sucesso")
+E           14 × locator resolved to <p id="msg-sucesso" class="alerta sucesso oculto">Pedido realizado com sucesso!</p>
+E              - unexpected value "hidden"
+E       
+E       Aria snapshot:
+E       - banner:
+E         - heading "Loja TCC" [level=1]
+E       - main:
+E         - heading "Finalizar pedido" [level=2]
+E         - text: Nome completo
+E         - textbox "Nome completo":
+E           - /placeholder: "Ex: Maria de Souza"
+E           - text: Maria de Souza
+E         - text: E-mail
+E         - textbox "E-mail":
+E           - /placeholder: voce@email.com
+E           - text: maria.souza@email.com
+E         - group "Forma de pagamento":
+E           - text: Forma de pagamento
+E           - radio "Cartão de Crédito"
+E           - text: Cartão de Crédito
+E           - radio "PIX" [checked]
+E           - text: PIX
+E         - checkbox "Li e aceito os Termos e Condições" [checked]
+E         - text: Li e aceito os Termos e Condições
+E         - button "Finalizar Compra"
+E         - paragraph: É preciso aceitar os Termos e Condições para continuar.
+
+tests\test_checkout.py:14: AssertionError
+________ test_excluir_usuario_remove_apenas_a_linha_correta[chromium] _________
+
+abrir = <function abrir.<locals>.navegar at 0x00000246293E56F0>
+capturar = <function capturar.<locals>.salvar at 0x000002462950E980>
+
+    def test_excluir_usuario_remove_apenas_a_linha_correta(abrir, capturar):
+        page = abrir("dashboard.html")
+    
+        linhas = page.locator("#tabela-usuarios tbody tr")
+        expect(linhas).to_have_count(3)
+    
+        linha_joao = page.locator('#tabela-usuarios tbody tr[data-id="102"]')
+        linha_joao.locator(".btn-delete").click()
+    
+>       expect(linha_joao).to_have_count(0)
+E       AssertionError: Locator expected to have count '0'
+E       Actual value: 1 
+E       Call log:
+E         - Expect "to_have_count" with timeout 5000ms
+E         - waiting for locator("#tabela-usuarios tbody tr[data-id=\"102\"]")
+E           14 × locator resolved to 1 element
+E              - unexpected value "1"
+
+tests\test_dashboard.py:13: AssertionError
+_______ test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium] _______
+
+abrir = <function abrir.<locals>.navegar at 0x000002462950FE20>
+capturar = <function capturar.<locals>.salvar at 0x000002462949D590>
+
+    def test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil(abrir, capturar):
+        page = abrir("modal.html")
+    
+        modal = page.locator("#modal-perfil")
+        page.click("#open-modal-btn")
+        expect(modal).to_be_visible()
+    
+        page.fill("#novo-apelido", "jp.tester")
+        modal.locator("#modal-save").click()
+    
+        expect(modal).to_be_hidden()
+>       expect(page.locator("#perfil-apelido")).to_have_text("jp.tester")
+E       AssertionError: Locator expected to have text 'jp.tester'
+E       Actual value: joao.pedro 
+E       Call log:
+E         - Expect "to_have_text" with timeout 5000ms
+E         - waiting for locator("#perfil-apelido")
+E           14 × locator resolved to <span id="perfil-apelido">joao.pedro</span>
+E              - unexpected value "joao.pedro"
+E       
+E       Aria snapshot:
+E       - text: joao.pedro
+
+tests\test_modal.py:15: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium]
+FAILED tests/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium]
+FAILED tests/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium]
+============================= 3 failed in 18.04s ==============================

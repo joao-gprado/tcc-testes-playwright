@@ -1,0 +1,133 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.15.1, pytest-8.3.4, pluggy-1.7.0 -- C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright
+configfile: pytest.ini
+plugins: anyio-4.15.1, base-url-2.1.0, playwright-0.6.2
+collecting ... collected 3 items
+
+tests_exp3/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium] FAILED [ 33%]
+tests_exp3/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium] FAILED [ 66%]
+tests_exp3/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium] FAILED [100%]
+
+================================== FAILURES ===================================
+__________ test_finalizar_compra_exibe_mensagem_de_sucesso[chromium] __________
+
+abrir = <function abrir.<locals>.navegar at 0x00000204A3556400>
+curador = <self_healing.MiddlewareSelfHealing object at 0x00000204A349B380>
+capturar = <function capturar.<locals>.salvar at 0x00000204A37333D0>
+
+    def test_finalizar_compra_exibe_mensagem_de_sucesso(abrir, curador, capturar):
+        page = abrir("checkout.html")
+    
+        curador.preencher("#nome", "Maria de Souza", "campo Nome completo do formulário de checkout")
+        curador.preencher("#email", "maria.souza@email.com", "campo E-mail do formulário de checkout")
+        curador.marcar("#pag-pix", "opção de pagamento PIX")
+        curador.marcar("#termos", "caixa de aceite dos Termos e Condições")
+        curador.clicar("#btn-submit", "botão Finalizar Compra que envia o pedido")
+    
+        mensagem = page.locator("#msg-sucesso")
+>       expect(mensagem).to_be_visible()
+E       AssertionError: Locator expected to be visible
+E       Actual value: hidden 
+E       Call log:
+E         - Expect "to_be_visible" with timeout 5000ms
+E         - waiting for locator("#msg-sucesso")
+E           14 × locator resolved to <p id="msg-sucesso" class="alerta sucesso oculto">Pedido realizado com sucesso!</p>
+E              - unexpected value "hidden"
+E       
+E       Aria snapshot:
+E       - banner:
+E         - heading "Loja TCC" [level=1]
+E       - main:
+E         - heading "Finalizar pedido" [level=2]
+E         - text: Nome completo
+E         - textbox "Nome completo":
+E           - /placeholder: "Ex: Maria de Souza"
+E           - text: Maria de Souza
+E         - text: E-mail
+E         - textbox "E-mail":
+E           - /placeholder: voce@email.com
+E           - text: maria.souza@email.com
+E         - group "Forma de pagamento":
+E           - text: Forma de pagamento
+E           - radio "Cartão de Crédito"
+E           - text: Cartão de Crédito
+E           - radio "PIX" [checked]
+E           - text: PIX
+E         - checkbox "Li e aceito os Termos e Condições" [checked]
+E         - text: Li e aceito os Termos e Condições
+E         - button "Finalizar Compra"
+E         - paragraph: É preciso aceitar os Termos e Condições para continuar.
+
+tests_exp3\test_checkout.py:14: AssertionError
+________ test_excluir_usuario_remove_apenas_a_linha_correta[chromium] _________
+
+abrir = <function abrir.<locals>.navegar at 0x00000204A37B5380>
+curador = <self_healing.MiddlewareSelfHealing object at 0x00000204A3814690>
+capturar = <function capturar.<locals>.salvar at 0x00000204A3840510>
+
+    def test_excluir_usuario_remove_apenas_a_linha_correta(abrir, curador, capturar):
+        page = abrir("dashboard.html")
+    
+        linhas = page.locator("#tabela-usuarios tbody tr")
+        expect(linhas).to_have_count(3)
+    
+        linha_joao = page.locator('#tabela-usuarios tbody tr[data-id="102"]')
+        curador.clicar(
+            '#tabela-usuarios tbody tr[data-id="102"] .btn-delete',
+            "botão Excluir da linha do usuário 102 (João Silva) na tabela de usuários",
+        )
+    
+>       expect(linha_joao).to_have_count(0)
+E       AssertionError: Locator expected to have count '0'
+E       Actual value: 1 
+E       Call log:
+E         - Expect "to_have_count" with timeout 5000ms
+E         - waiting for locator("#tabela-usuarios tbody tr[data-id=\"102\"]")
+E           14 × locator resolved to 1 element
+E              - unexpected value "1"
+
+tests_exp3\test_dashboard.py:16: AssertionError
+_______ test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium] _______
+
+abrir = <function abrir.<locals>.navegar at 0x00000204A3843320>
+curador = <self_healing.MiddlewareSelfHealing object at 0x00000204A3816FD0>
+capturar = <function capturar.<locals>.salvar at 0x00000204A38426C0>
+
+    def test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil(abrir, curador, capturar):
+        page = abrir("modal.html")
+    
+        modal = page.locator("#modal-perfil")
+        curador.clicar("#open-modal-btn", "botão Editar Perfil que abre a modal de edição do perfil")
+        expect(modal).to_be_visible()
+    
+        curador.preencher("#novo-apelido", "jp.tester", "campo Novo Apelido dentro da modal de perfil")
+        curador.clicar("#modal-perfil #modal-save", "botão Salvar Alterações da modal de perfil")
+    
+        expect(modal).to_be_hidden()
+>       expect(page.locator("#perfil-apelido")).to_have_text("jp.tester")
+E       AssertionError: Locator expected to have text 'jp.tester'
+E       Actual value: joao.pedro 
+E       Call log:
+E         - Expect "to_have_text" with timeout 5000ms
+E         - waiting for locator("#perfil-apelido")
+E           14 × locator resolved to <span id="perfil-apelido">joao.pedro</span>
+E              - unexpected value "joao.pedro"
+E       
+E       Aria snapshot:
+E       - text: joao.pedro
+
+tests_exp3\test_modal.py:15: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\google\genai\types.py:42
+  C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\.venv\Lib\site-packages\google\genai\types.py:42: DeprecationWarning: '_UnionGenericAlias' is deprecated and slated for removal in Python 3.17
+    VersionedUnionType = Union[builtin_types.UnionType, _UnionGenericAlias]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\joaop\Desktop\TCC2\tcc-testes-playwright\resultados\experimento3\junit_v2_r1.xml -
+=========================== short test summary info ===========================
+FAILED tests_exp3/test_checkout.py::test_finalizar_compra_exibe_mensagem_de_sucesso[chromium]
+FAILED tests_exp3/test_dashboard.py::test_excluir_usuario_remove_apenas_a_linha_correta[chromium]
+FAILED tests_exp3/test_modal.py::test_salvar_apelido_fecha_a_modal_e_atualiza_o_perfil[chromium]
+======================== 3 failed, 1 warning in 17.31s ========================
